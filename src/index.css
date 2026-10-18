@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0A0514;
+  --color-surface: rgba(28, 12, 54, 0.4);
+  --color-card: rgba(40, 18, 74, 0.45);
+  --color-border: #4C2F7A;
+  --color-primary: #A78BFA;
+  --color-cyan: #C4B5FD;
+  --color-ipv6: #8B5CF6;
+  --color-success: #4ADE80;
+  --color-warning: #F0ABFC;
+  --color-text: #FDFBF7;
+  --color-muted: #A78BFA;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  5% { opacity: 0.95; }
+  10% { opacity: 0.9; }
+  15% { opacity: 0.95; }
+  20% { opacity: 0.98; }
+  100% { opacity: 1; }
+}
+
+@keyframes glitch {
+  0% { clip-path: inset(10% 0 30% 0); transform: translate(-2px, 2px); }
+  20% { clip-path: inset(30% 0 10% 0); transform: translate(2px, -2px); }
+  40% { clip-path: inset(5% 0 5% 0); transform: translate(-1px, 1px); }
+  60% { clip-path: inset(80% 0 10% 0); transform: translate(2px, 1px); }
+  80% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, -1px); }
+  100% { clip-path: inset(0% 0 0% 0); transform: translate(0); }
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  overflow: hidden;
+  animation: flicker 0.1s infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+.cyber-scanline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(167, 139, 250, 0.05),
+    transparent
+  );
+  animation: scanline 12s linear infinite;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.cyber-noise {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.glass-panel {
+  backdrop-filter: blur(12px);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.cyber-border-glow {
+  position: relative;
+}
+
+.cyber-border-glow::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--color-primary);
+  border-radius: inherit;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.glitch-text {
+  position: relative;
+  animation: glitch 5s infinite linear alternate-reverse;
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+}
+
+/* ── Interaction affordances ───────────────────────────────────────────
+   Tailwind v4 resets buttons to `cursor: default`; restore the pointer
+   for every interactive control, and show a clear focus ring for
+   keyboard users. */
+button,
+[role='button'],
+[role='switch'] {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: rgba(167, 139, 250, 0.35);
+  color: var(--color-text);
+}
+
+/* ── Accessibility: respect reduced-motion preferences ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
+  .cyber-scanline {
+    animation: none;
+    opacity: 0;
+  }
+}

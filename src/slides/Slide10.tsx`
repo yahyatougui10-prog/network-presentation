@@ -1,0 +1,79 @@
+import React from 'react';
+import { SlideLayout } from '../components/SlideLayout';
+import { motion } from 'framer-motion';
+import { BookOpen, CheckCircle, Network } from 'lucide-react';
+
+const laSummary = [
+  { title: 'DHCPv4', content: 'Configuration automatique IPv4 via le processus DORA.', color: 'text-primary', accent: 'var(--color-primary)' },
+  { title: 'SLAAC', content: 'Création autonome d\'adresses IPv6 via messages RA.', color: 'text-success', accent: 'var(--color-success)' },
+  { title: 'DHCPv6 Stateless', content: 'SLAAC pour l\'adresse + DHCPv6 pour les options.', color: 'text-cyan', accent: 'var(--color-cyan)' },
+  { title: 'DHCPv6 Stateful', content: 'Configuration complète fournie par le serveur DHCPv6.', color: 'text-ipv6', accent: 'var(--color-ipv6)' },
+  { title: 'DHCP Relay', content: 'Pontage des requêtes DHCP à travers différents sous-réseaux.', color: 'text-warning', accent: 'var(--color-warning)' },
+];
+
+const Slide10: React.FC = () => {
+  return (
+    <SlideLayout variant="standard" accentColor="var(--color-primary)">
+      {/* Header Area */}
+      <div className="col-span-12 flex flex-col items-center text-center mb-20">
+        <div className="flex items-center justify-center gap-3 text-primary text-[clamp(13px,1.5vw,15px)] font-bold uppercase tracking-[0.3em] mb-4">
+          <div className="w-6 h-6 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
+            <BookOpen className="w-3 h-3" />
+          </div >
+          <span>Carte des Connaissances</span>
+        </div >
+        <h2 className="text-[clamp(44px,4vw,56px)] font-black text-white uppercase tracking-tighter">Résumé des Concepts Clés</h2>
+      </div >
+
+      {/* Knowledge Grid - Centered and Open */}
+      <div className="col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-12 relative mb-32 px-8">
+        {/* Subtle connection line connecting all dots */}
+        <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent -z-10 hidden md:block" />
+
+        {laSummary.map((item, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className="flex flex-col items-center text-center space-y-6 group"
+          >
+            <div
+              className="w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:bg-white/20 group-hover:border-white/40 relative"
+              style={{ color: item.accent }}
+            >
+              <CheckCircle className="w-7 h-7" />
+              <div className="absolute inset-0 rounded-full animate-pulse opacity-20" style={{ boxShadow: `0 0 15px ${item.accent}` }} />
+            </div >
+            <div className="flex flex-col gap-2">
+              <span className={`font-black text-[clamp(16px,1.5vw,20px)] uppercase tracking-tighter ${item.color}`}>
+                {item.title}
+              </span>
+              <p className="text-[clamp(13px,1.5vw,15px)] text-slate-400 leading-relaxed max-w-[160px] mx-auto">
+                {item.content}
+              </p>
+            </div >
+          </motion.div>
+        ))}
+      </div >
+
+      {/* Final Cinematic Quote - Balanced */}
+      <div className="col-span-12 flex flex-col items-center justify-center text-center relative pt-12">
+        <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mb-10">
+          <Network className="w-8 h-8 text-primary" />
+        </div >
+        <p className="text-[clamp(24px,3vw,32px)] text-white font-medium italic leading-relaxed max-w-3xl mx-auto drop-shadow-sm">
+          "L'automatisation réseau est le pont entre la configuration manuelle et l'infrastructure scalable."
+        </p>
+        <div className="flex flex-col items-center gap-3 mt-8">
+          <span className="text-[clamp(13px,1.5vw,15px)] text-slate-500 uppercase font-bold tracking-[0.5em]">
+            — NET/LEARN OS v4.2.0
+          </span>
+          <div className="w-12 h-px bg-primary/30" />
+        </div >
+      </div >
+    </SlideLayout>
+  );
+};
+
+export default Slide10;
